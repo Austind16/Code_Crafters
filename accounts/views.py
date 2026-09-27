@@ -13,7 +13,7 @@ def register(request):
 	form = UserCreationForm(request.POST or None)
 	if request.method == 'POST' and form.is_valid():
 		user = form.save()
-		login(request, user)
+		login(request, user, backend='django.contrib.auth.backends.ModelBackend')
 		messages.success(request, 'Your account has been created.')
 		return redirect('accounts:profile')
 
