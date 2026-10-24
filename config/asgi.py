@@ -20,6 +20,11 @@ django_asgi_app = get_asgi_application()
 from submissions.middleware import TokenAuthMiddleware
 from submissions.routing import websocket_urlpatterns
 
+from config.background import start_background_threads
+
+if os.environ.get('RUN_BACKGROUND_THREADS', 'true').strip().lower() in {'1', 'true', 'yes'}:
+	start_background_threads()
+
 application = ProtocolTypeRouter({
 	'http': django_asgi_app,
 	'websocket': AuthMiddlewareStack(

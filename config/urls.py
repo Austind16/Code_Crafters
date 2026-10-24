@@ -15,10 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.http import HttpResponse
 from django.urls import include, path
 from django.views.generic import RedirectView, TemplateView
 
+
+def healthz(request):
+    return HttpResponse('ok', content_type='text/plain')
+
+
 urlpatterns = [
+    path('healthz', healthz, name='healthz'),
     path('', RedirectView.as_view(pattern_name='frontend-preview', permanent=False), name='home'),
     path('admin/', admin.site.urls),
     path('preview/', TemplateView.as_view(template_name='frontend/loginpg.html'), name='frontend-preview'),
